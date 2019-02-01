@@ -1,0 +1,24 @@
+{
+  "name": "flambe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn compile && yarn bundle && yarn package",
+    "compile": "babel src --out-dir .build",
+    "bundle": "browserify .build/app.js -o .build/app-bundle.js",
+    "package": "gulp"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-regenerator": "^7.0.0",
+    "@babel/preset-env": "^7.3.1",
+    "browserify": "^16.2.3",
+    "gulp": "^4.0.0",
+    "gulp-zip": "^4.2.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5"
+  }
+}
