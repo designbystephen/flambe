@@ -1,8 +1,8 @@
-# Flambe
+# Flambé
 > Adds a \"Clear Tabs and Data\" button in the toolbar allowing you to close your tabs and clear your browser history in one click. Inspired by similar functionality in DuckDuckGo's mobile browser.
  
 ## Privacy
-- No data is collected by this extension (Flambe)
+- No data is collected by this extension (Flambé)
 - All permissions and APIs are required to perform intended functionality only
 
 ## Extension Permissions
@@ -14,9 +14,9 @@
 
 ## Starting/Building Project
 1. Clone project
-2. `yarn`
-3. `yarn build`
-4. dist/flambe.xpi
+2. `$ yarn`
+3. `$ yarn build`
+4. Extension is compressed exported to: `dist/flambe.xpi`
 
 ## Credits
-- "Flame" Icon made by Freepik from www.flaticon.com 
+- "fire over line" Icon made by Freepik from https://www.flaticon.com 
