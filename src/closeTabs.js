@@ -1,6 +1,14 @@
+import showErrors from './showErrors';
+
 export default async (tab) => {
+  let tabs = [];
+  
   //  get tabs in current window
-  const tabs = await browser.tabs.query({ currentWindow: true });
+  try {
+   tabs = await browser.tabs.query({ currentWindow: true });
+  } catch (ex) {
+    showErrors('Unable to close tabs.', ex);
+  }
 
   // get array of tab ids
   let tabIds = tabs.map(tab => tab.id);

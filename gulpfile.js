@@ -4,6 +4,9 @@ const zip = require('gulp-zip');
 const files = [
   'manifest.json',
   './.build/app-bundle.js',
+  './.build/pages/*.js',
+  './src/pages/*.html',
+  './src/pages/*.css',
   './assets/*.png',
 ];
 

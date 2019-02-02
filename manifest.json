@@ -1,15 +1,25 @@
 {
   "manifest_version": 2,
-  "icons": {
-    "48": "icon-512.png",
-    "128": "icon-512.png"
-  },
   "name": "Flambe",
   "version": "1.0",
+  "author": "Stephen Roth",
+  "description": "Adds a \"Clear Tabs and Data\" button in the toolbar allowing you to close your tabs and clear your browser history in one click. Inspired by similar functionality in DuckDuckGo's mobile browser.",
+  "homepage_url": "https://github.com/designbystephen/flambe",
   "applications": {
     "gecko": {
       "id": "flambe@mozilla.org"
     }
+  },
+  "developer": {
+    "name": "Stephen Roth",
+    "url": "https://github.com/designbystephen"
+  },
+
+  "icons": {
+    "48": "icon-512.png",
+    "128": "icon-512.png",
+    "256": "icon-512.png",
+    "512": "icon-512.png"
   },
 
   "background": {
@@ -23,11 +33,7 @@
   ],
 
   "browser_action": {
-    "default_icon": {
-      "19": "icon-512.png",
-      "38": "icon-512.png"
-    },
-    "default_title": "Clear Data"
+    "default_icon": "icon-512.png",
+    "default_title": "Clear Tabs and Data"
   }
 }
-
