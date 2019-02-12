@@ -9,7 +9,7 @@ export default () => {
     downloads: true,
     history: true,
 
-    // TODO: Why wouldn't these clear?
+    // TODO: clear these entries
     // fileSystems: true,
     // formData: true,
     // indexedDB: true,

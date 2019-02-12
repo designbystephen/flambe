@@ -5,6 +5,9 @@ module.exports = {
     style: 'popup.css',
     script: 'popup-compiled-min.js'
   },
-  review: 'https://addons.mozilla.org/en-US/firefox/addon/flambe/',
+  links: {
+    review: 'https://addons.mozilla.org/en-US/firefox/addon/flambe/',
+    developer: 'http://designbystephen.com?from=flambe'
+  },
   version,
 }
