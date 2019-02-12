@@ -1,9 +1,9 @@
 /* global chrome:false */
 
 import '@babel/polyfill';
-import { listen } from './events';
-import clearDataAndTabs from './clearDataAndTabs';
-import { closeCurrentWindow, openLink } from './window';
+import { listen } from './modules/events';
+import clearDataAndTabs from './modules/clearDataAndTabs';
+import { closeCurrentWindow, openLink } from './modules/window';
 
 listen('[data-action="clear"]', 'click', clearDataAndTabs);
 listen('[data-action="cancel"]', 'click', closeCurrentWindow);

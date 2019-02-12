@@ -354,6 +354,12 @@ template {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  border: 0;
+}
+
+html, body {
+  border: 0;
+  outline: 0;
 }
 
 body {
@@ -363,7 +369,7 @@ body {
   margin: 0;
   padding: 12px;
   width: 265px;
-  height: 175px;
+  height: 179px;
   overflow: hidden;
 }
 
@@ -414,12 +420,20 @@ a {
 }
 
 .footer .footer__row {
-  margin: 4px 0px;
+  margin: 6px 0px;
 }
 
 .link {
   color: #3498db;
   text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link.link--orange {
+  color: #e87f74;
 }
 
 .--muted-text{
