@@ -12,13 +12,16 @@ const {
 const files = [
   `${SRC_DIR}/manifest.json`,
   `${SRC_DIR}/icons/*.png`,
-  `${SRC_DIR}/*.css`,
-  `${BUILD_DIR}/${PROJECT_NAME}.js`,
-  `${BUILD_DIR}/${PROJECT_NAME}.js.map`,
   `${BUILD_DIR}/${PROJECT_NAME}.min.js`,
   `${BUILD_DIR}/*.min.css`,
   `${BUILD_DIR}/*.html`,
-];
+].concat(
+  !!process.env.DEBUG ? [
+    `${SRC_DIR}/*.css`,
+    `${BUILD_DIR}/${PROJECT_NAME}.js`,
+    `${BUILD_DIR}/${PROJECT_NAME}.js.map`,
+  ] : []
+);
 
 gulp.task('default', gulp.series(
   // clean build and dist directories
@@ -59,7 +62,7 @@ gulp.task('default', gulp.series(
   // zip files
   ...zip(
     files,
-    `${PROJECT_NAME}.xpi`,
+    `${PROJECT_NAME}.${process.env.ENV === 'chrome' ? 'zip' : 'xpi'}`,
     DIST_DIR
   ),
 ));

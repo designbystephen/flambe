@@ -11,11 +11,11 @@ const sourcemaps = require('gulp-sourcemaps');
 module.exports = (entryPoint, bundleName, output) => {
   gulp.task('compile', () => (
     browserify(entryPoint, {
-        debug: process.env.DEBUG === 'true'
+        debug: !!process.env.DEBUG
       })
       .transform(
         babelify, {
-          sourceMaps: 'inline',
+          sourceMaps: !!process.env.DEBUG ? 'inline' : false,
         }
       )
       .transform(
@@ -26,7 +26,7 @@ module.exports = (entryPoint, bundleName, output) => {
       .bundle()
       .pipe(source(bundleName))
       .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.init({ loadMaps: !!process.env.DEBUG }))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(output))
   ));

@@ -1,12 +1,6 @@
-export default (query) => {
-  let tabs = [];
-
-  try {
-    chrome.tabs.query(query, (result) => tabs = result);
-  } catch(ex) {
-    return Promise.reject(ex);
-  }
-  
-  return Promise.resolve(tabs);
-};
+export default (query) => (
+  new Promise((resolve, reject) => {
+    chrome.tabs.query(query, (result) => resolve(result));
+  })
+);
   
