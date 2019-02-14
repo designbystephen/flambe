@@ -1,71 +1,71 @@
-const gulp = require('gulp');
-const cleanCSS = require('gulp-clean-css');
-const minify = require('gulp-minify');
-const zip = require('gulp-zip');
-const del = require('del');
-const fs = require('fs');
-const Handlebars = require('handlebars');
-const properties = require('./src/properties');
+const {
+  clean,
+  compile,
+  minify,
+  template,
+  move,
+  zip,
+} = require('./gulp');
 
 // Build constants
-const src = './src';
-const build ='./.build';
-const xpiName ='flambe.xpi';
-const dest ='./dist';
-
-// Clean dist and .build contents
-gulp.task('clean', () => (
-  del([
-    `${build}/**/*`,
-    `${dest}/**/*`,
-  ])
-));
-
-// Minify .js after Babel Compile
-gulp.task('minify', () => (
-  gulp.src([`${build}/popup-compiled.js`])
-    .pipe(minify())
-    .pipe(gulp.dest(build))
-));
-
-// Minify .css
-gulp.task('minify-css', () => (
-  gulp.src([`${src}/popup.css`])
-    .pipe(cleanCSS())
-    .pipe(gulp.dest(build))
-));
-
-// Compile .hbs
-gulp.task('hbs', () => {
-  const source = fs.readFileSync(`${src}/popup.hbs`, 'utf8');
-  const template = Handlebars.compile(source);
-
-  try {
-    fs.writeFileSync(`${build}/popup.html`, template(properties));
-  } catch (ex) {
-    throw new Error('Unable to write html from hbs file', ex);
-  }
-  
-  return Promise.resolve();
-});
+const PROJECT_NAME = 'flambe';
+const SRC_DIR = './src';
+const BUILD_DIR ='./.build';
+const APP_ENTRY_POINT = `${SRC_DIR}/app.js`;
+const DIST_DIR ='./dist';
 
 // Project files
 const files = [
-  `${src}/manifest.json`,
-  `${src}/icons/*.png`,
-  `${build}/popup-compiled-min.js`, // compiled and minified js
-  `${build}/*.html`, // compiled hbs
-  `${build}/*.css`, // minified css
+  `${SRC_DIR}/manifest.json`,
+  `${SRC_DIR}/icons/*.png`,
+  `${BUILD_DIR}/${PROJECT_NAME}.js`,
+  `${BUILD_DIR}/${PROJECT_NAME}.min.js`,
+  `${BUILD_DIR}/*.css`,
+  `${BUILD_DIR}/*.min.css`,
+  `${BUILD_DIR}/*.html`,
 ];
 
-// Zip or move to destination RAW
-gulp.task('zip', () => (
-  process.env.ZIP !== 'false'
-    ? gulp.src(files)
-      .pipe(zip(xpiName))
-      .pipe(gulp.dest(dest))
-    : gulp.src(files)
-      .pipe(gulp.dest(dest))
-));
+const tasks = [
+  // clean build and dist directories
+  ...clean([
+    `${BUILD_DIR}/**/*`,
+    `${DIST_DIR}/**/*`
+  ], [
+    `${SRC_DIR}/**/*`
+  ]),
 
-gulp.task('default', gulp.series('minify', 'minify-css', 'hbs', 'zip'));
+  // compile code and cat into a single asset
+  ...compile(
+    APP_ENTRY_POINT,
+    `${BUILD_DIR}/${PROJECT_NAME}.js`, 
+    BUILD_DIR
+  ),
+
+  // minify code
+  ...minify(
+    `${BUILD_DIR}/${PROJECT_NAME}.js`, 
+    `${SRC_DIR}/${PROJECT_NAME}.css`,
+    BUILD_DIR,
+  ),
+
+  // compile template
+  ...template(
+    `${SRC_DIR}/${PROJECT_NAME}.hbs`,
+    `${BUILD_DIR}/${PROJECT_NAME}.html`
+  ),
+
+  // move files
+  ...move(
+    files,
+    DIST_DIR
+  ),
+
+  // zip files
+  ...zip(
+    files,
+    `${PACKAGE_NAME}.xpi`,
+    DIST_DIR
+  ),
+];
+
+gulp.task('default', gulp.series.apply(null, tasks));
