@@ -1,9 +1,8 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const Handlebars = require('handlebars');
-const properties = require('./src/properties');
 
-module.exports = (src, output) => {
+module.exports = (src, properties, output) => {
   gulp.task('template', () => {
     const source = fs.readFileSync(src, 'utf8');
     const template = Handlebars.compile(source);

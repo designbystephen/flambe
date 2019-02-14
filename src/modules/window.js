@@ -5,7 +5,7 @@ export const closeCurrentWindow = () => {
 export const openLink = async (event, element) => {
   event.preventDefault();
 
-  await browser.tabs.create({
+  await chrome.tabs.create({
     url: element.href
   });
 

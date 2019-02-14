@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const del = require('del');
 
-module.export = (clean, ignore=[]) => {
+module.exports = (clean, ignore=[]) => {
   gulp.task('clean', () => (
     del([
       ...clean,

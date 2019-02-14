@@ -1,4 +1,4 @@
-/* global chrome:false */
+/* globals chrome:false */
 
 import '@babel/polyfill';
 import { listen } from './modules/events';

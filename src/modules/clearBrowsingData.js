@@ -1,5 +1,5 @@
 export default () => {
-  return browser.browsingData.remove({
+  return chrome.browsingData.remove({
     // clear since beginning of time
     since: 0,
   }, {

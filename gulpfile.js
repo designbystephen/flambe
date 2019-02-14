@@ -1,31 +1,26 @@
+const gulp = require('gulp');
+const { clean, compile, minify, template, move, zip } = require('./gulp');
 const {
-  clean,
-  compile,
-  minify,
-  template,
-  move,
-  zip,
-} = require('./gulp');
-
-// Build constants
-const PROJECT_NAME = 'flambe';
-const SRC_DIR = './src';
-const BUILD_DIR ='./.build';
-const APP_ENTRY_POINT = `${SRC_DIR}/app.js`;
-const DIST_DIR ='./dist';
+  PROJECT_NAME,
+  SRC_DIR,
+  BUILD_DIR,
+  APP_ENTRY_POINT,
+  DIST_DIR,
+} = require('./src/modules/constants');
 
 // Project files
 const files = [
   `${SRC_DIR}/manifest.json`,
   `${SRC_DIR}/icons/*.png`,
+  `${SRC_DIR}/*.css`,
   `${BUILD_DIR}/${PROJECT_NAME}.js`,
+  `${BUILD_DIR}/${PROJECT_NAME}.js.map`,
   `${BUILD_DIR}/${PROJECT_NAME}.min.js`,
-  `${BUILD_DIR}/*.css`,
   `${BUILD_DIR}/*.min.css`,
   `${BUILD_DIR}/*.html`,
 ];
 
-const tasks = [
+gulp.task('default', gulp.series(
   // clean build and dist directories
   ...clean([
     `${BUILD_DIR}/**/*`,
@@ -37,7 +32,7 @@ const tasks = [
   // compile code and cat into a single asset
   ...compile(
     APP_ENTRY_POINT,
-    `${BUILD_DIR}/${PROJECT_NAME}.js`, 
+    `${PROJECT_NAME}.js`, 
     BUILD_DIR
   ),
 
@@ -51,6 +46,7 @@ const tasks = [
   // compile template
   ...template(
     `${SRC_DIR}/${PROJECT_NAME}.hbs`,
+    require('./src/modules/properties'),
     `${BUILD_DIR}/${PROJECT_NAME}.html`
   ),
 
@@ -63,9 +59,7 @@ const tasks = [
   // zip files
   ...zip(
     files,
-    `${PACKAGE_NAME}.xpi`,
+    `${PROJECT_NAME}.xpi`,
     DIST_DIR
   ),
-];
-
-gulp.task('default', gulp.series.apply(null, tasks));
+));

@@ -8,7 +8,7 @@ module.exports = (jsFile, cssFile, output) => {
     gulp.src([jsFile])
       .pipe(minify({
         ext:{
-          src:'.min.js',
+          min:'.min.js',
         },
       }))
       .pipe(gulp.dest(output))

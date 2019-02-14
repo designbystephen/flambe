@@ -1,14 +1,35 @@
 const gulp = require('gulp');
-var browserify = require("browserify");
-var fs = require("fs");
+const browserify = require('browserify');
+const babelify = require('babelify');
+const envify = require('envify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const sourcemaps = require('gulp-sourcemaps');
 
-module.exports = (entryPoint, bundleName, destination) => {
+// var fs = require("fs");
+
+module.exports = (entryPoint, bundleName, output) => {
   gulp.task('compile', () => (
-    browserify(entryPoint)
-      .transform('babelify')
+    browserify(entryPoint, {
+        debug: true
+      })
+      .transform(
+        babelify, {
+          sourceMaps: 'inline',
+        }
+      )
+      .transform(
+        envify, {
+          ENV: process.env.ENV 
+        }
+      )
       .bundle()
-      .pipe(fs.createWriteStream(bundleName))
-      .pipe(gulp.dest(destination))
+      .pipe(source(bundleName))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest(output))
+      // .pipe(fs.createWriteStream(`${output}/${bundleName}`))
   ));
 
   return ['compile'];
